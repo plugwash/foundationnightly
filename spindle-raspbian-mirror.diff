@@ -1,0 +1,13 @@
+diff --git a/config b/config
+index 798786b..7f85606 100644
+--- a/config
++++ b/config
+@@ -7,7 +7,7 @@ RASPBIAN=1
+ 
+ if [ -n "$RASPBIAN" ]; then
+   TGT_ARCH=armhf
+-  DEB_MIRROR=http://mirror.ox.ac.uk/sites/archive.raspbian.org/archive/raspbian/
++  DEB_MIRROR=http://archive.raspbian.org/raspbian/
+ else
+   TGT_ARCH=armel
+   #DEB_MIRROR=http://ftp.uk.debian.org/debian

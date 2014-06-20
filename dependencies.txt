@@ -1,0 +1,10 @@
+#may well be incomplete
+devscripts
+build-essential
+qemu-utils
+squashfs-tools
+qemu-system
+zerofree
+quilt
+dosfstools
+debootstrap

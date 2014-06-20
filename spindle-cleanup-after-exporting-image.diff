@@ -1,0 +1,14 @@
+diff --git a/common b/common
+index 11c11d9..8942cc5 100755
+--- a/common
++++ b/common
+@@ -235,8 +235,9 @@ EOF
+   fi
+   sudo umount $BOOT_DEV
+   sudo umount $ROOT_DEV
+   detach_image_from_nbd /dev/nbd0
+   convert_image temp.$IMGFORMAT ../$2
++  universal_cleanup
+ }
+ 
+ disable_starting_services() {

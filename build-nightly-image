@@ -1,0 +1,36 @@
+#!/bin/bash -ev
+
+IMAGEDATE=$(date -u +%Y%m%d-%H%M%S)
+
+#wrap the bulk of the script in a function so we can log the output
+main ()
+{
+
+
+	./build-nightly-bootloader-package
+	cd spindlebase
+	git fetch
+	cd ..
+	rm -rf spindle
+	git clone --reference spindlebase https://github.com/asb/spindle spindle
+	cp -al spindlework spindle/work
+	cd spindle
+	patch -p1 < ../spindle-recent-qemu.diff
+	patch -p1 < ../spindle-use-nightly-firmware.diff
+	patch -p1 < ../spindle-cleanup-after-exporting-image.diff
+	patch -p1 < ../spindle-raspbian-mirror.diff
+	
+	sudo modprobe nbd max_part=16
+	./wheezy-stage0
+	./wheezy-stage1
+	./wheezy-stage2
+	./wheezy-stage3
+	./wheezy-stage4-lxde
+	./wheezy-stage4-lxde-edu
+	./helper export_image_for_release out/stage4-lxde-edu.qed nightly.img
+	xz -9 nightly.img
+	mv nightly.img.xz /usr/share/nginx/www/nightlyimages/rpf-raspbian-nightly-$IMAGEDATE.img.xz
+}
+
+#log output
+main "$@" 2>&1 | tee /usr/share/nginx/www/nightlyimages/rpf-raspbian-nightly-$IMAGEDATE.log

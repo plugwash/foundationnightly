@@ -1,0 +1,56 @@
+#!/bin/bash -ev
+BASEDIR=`pwd`
+cd firmwarebase
+git fetch
+cd ..
+rm -rf firmware
+git clone --reference firmwarebase https://github.com/raspberrypi/firmware firmware
+cd firmware
+
+FOUNDATIONHEAD=`git rev-parse origin/master`
+git config user.email "rpf@autonightly.invalid"
+git config user.name "rpf automated nightly builder"
+export DEBEMAIL="rpf automated nightly builder <rpf@autonightly.invalid>"
+COMMITDATE=$(date -d @`git show -s --format=%ct origin/master` -u +%Y%m%d~%H%M%S)
+DEBVERSION=1.${COMMITDATE}~nightly
+
+#sanity check, commit datetime must be lower than current datetime
+DATENOW=$(date -u +%Y%m%d~%H%M%S)
+dpkg --compare-versions $COMMITDATE le $DATENOW
+
+echo ${DEBVERSION} > ../firmwareversion
+
+if [[ -f ../raspberrypi-firmware_${DEBVERSION}.dsc ]]; then
+	echo Package already built
+	exit 0
+fi
+
+
+#merge asb's Debian packaging
+git remote add asb https://github.com/asb/firmware
+git remote update
+git merge --no-edit asb/debian
+
+#add changelog entry
+dch -v ${DEBVERSION} -p "Firmware as of ${FOUNDATIONHEAD}"
+
+#source format 3.0 has misfeatures that screw us, use 1.0
+echo 1.0 > debian/source/format
+
+#get kernel source code
+git clone --reference ../linuxbase https://github.com/raspberrypi/linux linux
+cd linux
+git checkout `cat ../extra/git_hash`
+cd ..
+
+#remove git metadata
+rm -rf .git linux/.git
+
+#build package
+dpkg-buildpackage -aarmhf -us -uc
+
+#add to repo
+DIR=`pwd`
+cd /usr/share/nginx/www/nightlyfirmware
+
+reprepro --ignore=wrongdistribution --keepunreferencedfiles include wheezy $BASEDIR/raspberrypi-firmware_${DEBVERSION}_armhf.changes

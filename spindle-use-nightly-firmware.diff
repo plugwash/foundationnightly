@@ -1,0 +1,43 @@
+diff --git a/wheezy-stage2 b/wheezy-stage2
+index 44e535b..100b034 100755
+--- a/wheezy-stage2
++++ b/wheezy-stage2
+@@ -236,6 +236,38 @@ m++/7s3K3L0zWopdhMVcgg6Nt9gcjzqN1c0gy55L/g==
+ =mNSj
+ -----END PGP PUBLIC KEY BLOCK-----
+ EOF1
++echo "deb http://nightly.raspberrypi.org/nightlyfirmware/ wheezy main"  > /etc/apt/sources.list.d/nightlyfirmware.list
++apt-key add - <<EOF1
++-----BEGIN PGP PUBLIC KEY BLOCK-----
++Version: GnuPG v1
++
++mQINBFOHTJQBEAC1Aay/Ol5r2ZnX3psFwc+fkD95ttp9fzNqSQlzu+TGoHV12OFv
++xJJoIA6lyEpbiMDbbRkT+yA9uviM/N4edA/YZlVE6WuCTVcdcVt674/UPl4bsfP/
++aDuvd0c/M2i4nMhaAA8hsiyCdAT0Mg5xHy4tY0kSIkJ5oOJ/KapjC6xVnrlBq4fp
++R5PIE793rhgSuSFJKfOx+7ID3FOiQIsXkj50Jkhtjk8ciFu0DylUTUBQr5Iuug5m
++V9MMB14TV13wCBN32KE0zGEvbBjaNYfQdVmeieIB8djFeRQZZuOudwSbT6vkjpYw
++PvhuVBviz9Wg12AujJxq9BFx1Erp58wKmh4pNbmgaOp6Pg8AybaYOL5SEbdGkt06
++FJlrM9ly89dQ+rJIQkzr4qIRUFx0t3ajK235KN1273SaCsdrovAR8fzv+2G7oden
++OjU5HfwZ8VoiXQdbNkVVxPNgk0MunMKJFdfsoRZgudgYKAhcTQWPh849Uwr7qvwc
++24o2J1MzdROsC5l9DypsPYwA9jGblPxN0RXzWRyazFrP/P0u0jLk7LrI0x9vhMzW
++QD/g/7LCNd4T+he41/I1r/i8LQ6lX/rVjKMqqVi8kJbLDgsqZzT08+HiMCr4oa3Q
++NxgDhfishHNSRO1WVHziBCpzokB0bK3fI9YNz0jOoGsrEq8HB7MbJNctpwARAQAB
++tC5SYXNwYmVycnkgUGkgZGFpbHkgYnVpbGQgYXV0b21hdGljIHNpZ25pbmcga2V5
++iQI3BBMBCgAhBQJTh0yUAhsDBQsJCAcDBRUKCQgLBRYDAgEAAh4BAheAAAoJENtc
++uzRe4hJWNSkQAJPQgKxrd10PFO4IzQUFW8WYWvDEC0tTB5BmlB87CLmdWgIBy4Ik
++hUbfu3zPppkMt8GCPUVleWobG0tfNTHzcl59xpT371REYA/RYWNo3LSWg+VacKby
++3R35+vKf2EmbFZHmQLZEANRB3Z/d8wz1gbOKCFiJ1S9yuWNlFR/ZQ0xrHk1zdqjv
++XTXWsju9LPsFA4x+4IuHZIK6SRpQVgERPVc/MDgASKxpjfHdhIXqRBXvsF+lt1bZ
++fXunZ7qMK1SJlb0AdKYbiXHJsfm7j2Rvqv2QKu9JvhrMHM/cSF1/A5FvK1Gyt3Ye
++3wjgNA6KI7raHLf2x3BTkG5EgAk0avZw/PwjDSxNstoFsJUJ/Psg+ws7GHXk5j0b
++X1FpEGLHtG/hGHZhMYs4gIRsxIaryDAGHZPFjfe9Pl+YGnMQ6TvhVjio01ncFuPG
++CrT+o+6m1L/mXtVOXNPyQIcpS2S+xffP9GI+HneFwQQSZHkunH01Ag9CYMLGokRJ
++1KniHlTYG+WRl3oT+sa2ImwWSroUtkRb5Z8JqViP1yCLOjqlJCHQqsbpFk/gW7q5
++7VBrSemjrGaZXSI+6Ho/stZZsO6G3aH7eHIlECaOttUkHt460xZDLu1H6hL5vKvN
++ymDlC6GGKHDxM7z6jWBiRN8iohHud3kdht4M7Xm3mAn4XeAlQY0V4xqW
++=Kjqg
++-----END PGP PUBLIC KEY BLOCK-----
++EOF1
+ apt-get update
+ apt-get install -y libraspberrypi-bin libraspberrypi0 raspberrypi-bootloader
+ echo "deb http://archive.raspberrypi.org/debian/ wheezy main" > /etc/apt/sources.list.d/raspi.list
