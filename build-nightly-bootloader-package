@@ -59,7 +59,10 @@ dpkg-buildpackage -aarmhf -us -uc
 DIR=`pwd`
 cd /usr/share/nginx/www/nightlyfirmware
 
+debsign -k5EE21256 $BASEDIR/raspberrypi-firmware_${DEBVERSION}_armhf.changes
 reprepro --ignore=wrongdistribution --keepunreferencedfiles include wheezy $BASEDIR/raspberrypi-firmware_${DEBVERSION}_armhf.changes
+#keep the changes file as well, it's useful for manual downgrades
+cp $BASEDIR/raspberrypi-firmware_${DEBVERSION}_armhf.changes pool/main/r/raspberrypi-firmware
 dcmd rm $BASEDIR/raspberrypi-firmware_${DEBVERSION}_armhf.changes
 
 } 200>firmwarelock
