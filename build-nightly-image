@@ -5,9 +5,8 @@ IMAGEDATE=$(date -u +%Y%m%d-%H%M%S)
 #wrap the bulk of the script in a function so we can log the output
 main ()
 {
-
-
 	./build-nightly-bootloader-package
+	./cleanup-old-images.py
 	cd spindlebase
 	git fetch
 	cd ..
@@ -30,6 +29,8 @@ main ()
 	./helper export_image_for_release out/stage4-lxde-edu.qed nightly.img
 	xz -9 nightly.img
 	mv nightly.img.xz /usr/share/nginx/www/nightlyimages/rpf-raspbian-nightly-$IMAGEDATE.img.xz
+	cd /usr/share/nginx/www/nightlyimages/
+	gpg -u 5EE21256 --output rpf-raspbian-nightly-$IMAGEDATE.img.xz.sig --detach-sign rpf-raspbian-nightly-$IMAGEDATE.img.xz
 }
 
 #log output

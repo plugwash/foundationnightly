@@ -1,6 +1,12 @@
+{
+flock 200
+
 #!/bin/bash -ev
 BASEDIR=`pwd`
 cd firmwarebase
+git fetch
+cd ..
+cd linuxbase
 git fetch
 cd ..
 rm -rf firmware
@@ -20,7 +26,7 @@ dpkg --compare-versions $COMMITDATE le $DATENOW
 
 echo ${DEBVERSION} > ../firmwareversion
 
-if [[ -f ../raspberrypi-firmware_${DEBVERSION}.dsc ]]; then
+if [[ -f /usr/share/nginx/www/nightlyfirmware/pool/main/r/raspberrypi-firmware/raspberrypi-firmware_${DEBVERSION}.dsc ]]; then
 	echo Package already built
 	exit 0
 fi
@@ -54,3 +60,6 @@ DIR=`pwd`
 cd /usr/share/nginx/www/nightlyfirmware
 
 reprepro --ignore=wrongdistribution --keepunreferencedfiles include wheezy $BASEDIR/raspberrypi-firmware_${DEBVERSION}_armhf.changes
+dcmd rm $BASEDIR/raspberrypi-firmware_${DEBVERSION}_armhf.changes
+
+} 200>firmwarelock
